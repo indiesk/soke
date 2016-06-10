@@ -1,0 +1,90 @@
+/* main: soke.scss */
+
+// Common variables
+$padding:   40px;
+$margin:    20px;
+
+$paginationsPosition:   40px;
+
+// Wrapper for the tracker container and paginations
+.tracker-container {
+    position:relative;
+    padding:$padding;
+}
+
+// Instanciated by Javascript
+.soke-tracker-groups {
+
+    font-weight:400;
+
+    > .group {
+
+        margin-bottom:$margin;
+
+        > .group-title {
+            margin-bottom:$margin;
+            font-size:1.4em;
+            font-weight:100;
+        }
+
+        > .group-description {
+            margin-bottom:$margin;
+            font-size:1.2em;
+            font-weight:200;
+        }
+
+        > .input-group {
+
+            > .input-group-addon,
+            > .form-control {
+                background-color:transparent;
+                border:none;
+                box-shadow:none;
+                -webkit-box-shadow:none;
+            }
+
+            > .input-group-btn button.btn {
+                margin-left:$margin;
+                border-radius:0px;
+            }
+
+        }
+
+    }
+
+}
+
+.tracker-container.slideshow {
+
+    @extend .absolute-fullscreen;
+
+    > .soke-tracker-groups {
+
+        position:absolute;
+        top:$padding;
+        left:$padding;
+        right:$padding;
+        bottom:$padding;
+
+        > .group {
+
+            @extend .absolute-fullscreen;
+            bottom:$padding + $paginationsPosition + $margin;
+
+            visibility:hidden;
+
+        }
+
+        > .group.active {
+            visibility:visible;
+        }
+
+        > .paginations {
+            position:absolute;
+            bottom:$paginationsPosition;
+            left:50%;
+        }
+
+    }
+
+}

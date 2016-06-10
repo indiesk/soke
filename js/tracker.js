@@ -1,5 +1,5 @@
 /* ========================================================================
- * SOKE: tracker.js v1.0.0
+ * SOKE: tracker.js v1.0.1
  * http://soke.it/javascript/#tracker
  * ========================================================================
  * Copyright 2016 SOKE.
@@ -20,12 +20,12 @@
 
     var Tracker = function (element, options) {
         this.$element       = $(element)
+        this.options        = options
         this.$items         = $(element).children("div.tracker-item")
         this.groups         = $('<div>',{'class':'soke-tracker-groups'})
-        this.options        = options
         this.currentIndex   = options.beginAt || 0
 
-        this.$indicators    = options.style == 'slideshow' ? $("<div>",{"class":"tracker-indicators"}) : null
+        this.$paginations   = options.style == 'slideshow' ? $("<div>",{"class":"tracker-paginations"}) : null
 
         this.required       = false
         this.filled         = false
@@ -50,6 +50,7 @@
     Tracker.prototype = {
         init: function (element, options) {
             var that = this
+            this.$element.addClass(options.style)
             this.$items.each(function (idx) {
                 var $item = $(this)
 
@@ -85,13 +86,14 @@
                 // Create a group or extend inside the group if a group is specified
                 // Otherwise, create a tentative group using its index
                 var group = $item.data('group') || idx
-                console.log(that.groups.children('.'+group))
                 if ( that.groups.children('.'+group).length > 0 ) {
                     that.groups.children('.'+group).append($inputGroup)
                 } else {
-                    var $group = $("<div>",{'class':'group '+group})
-                    var groupTitle = $('.tracker-group[data-name='+group+']').data('title')
-                    var groupDescription = $('.tracker-group[data-name='+group+']').data('description')
+                    // New group
+                    var active = idx == that.currentIndex ? 'active' : ''
+                    var $group = $("<div>",{'class':'group '+group+' '+active})
+                    var groupTitle = $('.tracker-group[data-name='+group+']').data('title') || ''
+                    var groupDescription = $('.tracker-group[data-name='+group+']').data('description') || ''
                     $group.append(
                         $('<div>',{'class':'group-title'}).html(groupTitle)
                     ).append(
@@ -102,6 +104,14 @@
             })
 
             this.$element.append(that.groups)
+
+            // Paginations if requested
+            if ( that.options.style == 'slideshow' ) {
+                var $paginations = $('<div>',{'class':'btn-group paginations'})
+                $paginations.append($('<button>',{'class':'btn btn-default prev'}).html('<'))
+                $paginations.append($('<button>',{'class':'btn btn-default next'}).html('>'))
+                that.groups.append($paginations)
+            }
 
         },
         getItemIndex: function (item) {
