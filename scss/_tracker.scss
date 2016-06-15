@@ -83,6 +83,15 @@ $paginationsPosition:   40px;
             position:absolute;
             bottom:$paginationsPosition;
             left:50%;
+
+            > button.btn {
+                border-radius:16px;
+                margin-right:10px;
+            }
+
+            > button.hidden {
+                display:none;
+            }
         }
 
     }

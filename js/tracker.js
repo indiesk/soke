@@ -25,6 +25,8 @@
         this.groups         = $('<div>',{'class':'soke-tracker-groups'})
         this.currentIndex   = options.beginAt || 0
 
+        this.$progress      = options.progress ? $('<div>',{'class':'tracker-progress'}) : null
+
         this.$paginations   = options.style == 'slideshow' ? $("<div>",{"class":"tracker-paginations"}) : null
 
         this.required       = false
@@ -33,7 +35,7 @@
         this.init(element, options)
     }
 
-    Tracker.VERSION = '1.0.0';
+    Tracker.VERSION = '1.0.1';
 
     Tracker.DEFAULTS = {
         // Default Options
@@ -108,7 +110,7 @@
             // Paginations if requested
             if ( that.options.style == 'slideshow' ) {
                 var $paginations = $('<div>',{'class':'btn-group paginations'})
-                $paginations.append($('<button>',{'class':'btn btn-default prev'}).html('<'))
+                $paginations.append($('<button>',{'class':'btn btn-default prev hidden'}).html('<'))
                 $paginations.append($('<button>',{'class':'btn btn-default next'}).html('>'))
                 that.groups.append($paginations)
             }
